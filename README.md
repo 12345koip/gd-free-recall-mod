@@ -1,23 +1,8 @@
-# Free Recall
-This is where she makes a mod.
+## About
+A mod for the average GD player who has better things to spent their demon keys on.
 
-<img src="logo.png" width="150" alt="the mod's logo" />
+This mod makes daily, weekly and event level recalls free, by giving you as many keys as the recall costs.
 
-*Update logo.png to change your mod's icon (please)*
+The average casual player may not want to, or may not be able to afford to, pay keys to get what they missed from a daily, weekly or event level, which is exactly why this mod exists!
 
-## Getting started
-We recommend heading over to [the getting started section on our docs](https://docs.geode-sdk.org/getting-started/) for useful info on what to do next.
-
-## Build instructions
-For more info, see [our docs](https://docs.geode-sdk.org/getting-started/create-mod#build)
-```sh
-# Assuming you have the Geode CLI set up already
-geode build
-```
-
-# Resources
-* [Geode SDK Documentation](https://docs.geode-sdk.org/)
-* [Geode SDK Source Code](https://github.com/geode-sdk/geode/)
-* [Geode CLI](https://github.com/geode-sdk/cli)
-* [Bindings](https://github.com/geode-sdk/bindings/)
-* [Dev Tools](https://github.com/geode-sdk/DevTools)
+If you find any bugs or issues, please open an Issue on the [GitHub Repository](https://github.com/12345koip/gd-free-recall-mod).

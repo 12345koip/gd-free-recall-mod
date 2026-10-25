@@ -10,6 +10,10 @@
 	"name": "Free Recall",
 	"version": "v1.0.0",
 	"developer": "kx_",
-	"description": "ill do this later",
+	"description": "You have better things to spend your keys on!",
+    "tags": ["offline", "cheat"],
+    "links": {
+      "source": "https://github.com/12345koip/gd-free-recall-mod"
+    },
 	"dependencies": {}
 }
