@@ -1,0 +1,15 @@
+{
+	"geode": "5.11.2",
+	"gd": {
+		"win": "*",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "kx_.free-recall",
+	"name": "Free Recall",
+	"version": "v1.0.0",
+	"developer": "kx_",
+	"description": "ill do this later",
+	"dependencies": {}
+}
