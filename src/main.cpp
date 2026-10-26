@@ -5,7 +5,6 @@
 
 using namespace geode::prelude;
 
-//robtop uses int for some reason dont ask me
 int getKeyCost(int levelStatusDeterminer) {
     int numKeysRequired = 0;
     if (levelStatusDeterminer <= 100000) //daily
@@ -18,7 +17,7 @@ int getKeyCost(int levelStatusDeterminer) {
     return numKeysRequired;
 }
 
-std::string_view getLevelTypeStr(int levelStatusDeterminer) {
+const char* getLevelTypeStr(int levelStatusDeterminer) {
     switch (getKeyCost(levelStatusDeterminer)) {
         case 1:
             return "Daily";
@@ -31,7 +30,7 @@ std::string_view getLevelTypeStr(int levelStatusDeterminer) {
     }
 }
 
-std::string_view getExtraStringForLevelType(int levelStatusDeterminer) {
+const char* getExtraStringForLevelType(int levelStatusDeterminer) {
     if (levelStatusDeterminer > 100000) //weekly demon or event.
         return "You get <cy>stars</c> and the <cg>chest</c>, nothing else.";
     else
@@ -48,15 +47,13 @@ class $modify(DailyRecallUnlockPopup) {
         const auto extraStr = getExtraStringForLevelType(statusID);
         const auto text = fmt::format("Unlock this {} level for <cy>0</c> <cj>Demon Keys</c>?\n{}", levelStr, extraStr);
 
-        //TODO: why on earth does getChildrenExt<TextArea> not work for this?
         for (auto* child: this->m_mainLayer->getChildrenExt<CCNode>()) {
             auto* area = typeinfo_cast<TextArea*>(child);
             if (!area) continue;
 
             area->setString(text);
 
-            //setString resets the colours for some reason and editing the label
-            //causes alignment issues so here we are i guess, reapplying the style manually
+            //setString resets the colours, need to reapply shadow
             if (area->getZOrder() == 2) { //the shadow text.
                 auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
                 if (!mbf) continue;
@@ -102,7 +99,6 @@ class $modify(LevelBrowserLayer) {
         copiedLevel->m_dailyID = originalLevel->m_replayDailyID;
 
         copiedLevel->retain();
-
         CC_SAFE_RELEASE(this->m_recalledLevel);
         this->m_recalledLevel = copiedLevel;
 
