@@ -5,15 +5,6 @@
 
 using namespace geode::prelude;
 
-int getKeyCost(int levelStatusDeterminer) {
-    if (levelStatusDeterminer <= 100000) //daily
-        return 1;
-    else if (levelStatusDeterminer <= 200000) //weekly
-        return 3;
-    else //event
-        return 5;
-}
-
 const char* getLevelTypeStr(const int levelStatusDeterminer) {
     if (levelStatusDeterminer <= 100000)
         return "Daily";
@@ -112,7 +103,7 @@ class $modify(LevelBrowserLayer) {
             return LevelBrowserLayer::FLAlert_Clicked(layer, btn2);
 
         auto* level = this->m_recalledLevel;
-        auto cost = getKeyCost(level->m_dailyID.value());
+        auto cost = GameStatsManager::dailyRecallPrice(level->m_dailyID.value());
         auto* StatsManager = GameStatsManager::sharedState();
         StatsManager->incrementStat("21", cost);
 
