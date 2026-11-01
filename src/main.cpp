@@ -6,28 +6,21 @@
 using namespace geode::prelude;
 
 int getKeyCost(int levelStatusDeterminer) {
-    int numKeysRequired = 0;
     if (levelStatusDeterminer <= 100000) //daily
-        numKeysRequired = 1;
+        return 1;
     else if (levelStatusDeterminer <= 200000) //weekly
-        numKeysRequired = 3;
+        return 3;
     else //event
-        numKeysRequired = 5;
-
-    return numKeysRequired;
+        return 5;
 }
 
-const char* getLevelTypeStr(int levelStatusDeterminer) {
-    switch (getKeyCost(levelStatusDeterminer)) {
-        case 1:
-            return "Daily";
-        case 3:
-            return "Weekly";
-        case 5:
-            return "Event";
-        default:
-            return "Unknown";
-    }
+const char* getLevelTypeStr(const int levelStatusDeterminer) {
+    if (levelStatusDeterminer <= 100000)
+        return "Daily";
+    else if (levelStatusDeterminer <= 200000)
+        return "Weekly";
+    else
+        return "Event";
 }
 
 const char* getExtraStringForLevelType(int levelStatusDeterminer) {
@@ -39,12 +32,12 @@ const char* getExtraStringForLevelType(int levelStatusDeterminer) {
 
 class $modify(DailyRecallUnlockPopup) {
     bool init(FLAlertLayerProtocol* protocol, GJGameLevel* level) {
-        bool initResult = DailyRecallUnlockPopup::init(protocol, level);
-        if (!initResult) return false;
+        if (!DailyRecallUnlockPopup::init(protocol, level))
+            return false;
 
-        auto statusID = level->m_dailyID.value();
-        const auto levelStr = getLevelTypeStr(statusID);
-        const auto extraStr = getExtraStringForLevelType(statusID);
+        const auto dailyID = level->m_dailyID.value();
+        const auto levelStr = getLevelTypeStr(dailyID);
+        const auto extraStr = getExtraStringForLevelType(dailyID);
         const auto text = fmt::format("Unlock this {} level for <cy>0</c> <cj>Demon Keys</c>?\n{}", levelStr, extraStr);
 
         for (auto* child: this->m_mainLayer->getChildrenExt<CCNode>()) {
@@ -55,6 +48,8 @@ class $modify(DailyRecallUnlockPopup) {
 
             //setString resets the colours, need to reapply shadow
             if (area->getZOrder() == 2) { //the shadow text.
+
+                //don't shout at me, there's only one of these.
                 auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
                 if (!mbf) continue;
 
@@ -79,6 +74,7 @@ class $modify(LevelCell) {
         auto* button = typeinfo_cast<ButtonSprite*>(item->getNormalImage());
         if (!button) return;
 
+        //these two use indexes but those children are the only children of that type hope this helps
         auto* container = button->getChildByType<CCSprite>(0);
         if (!container) return;
 
@@ -112,10 +108,10 @@ class $modify(LevelBrowserLayer) {
     }
 
     void FLAlert_Clicked(FLAlertLayer* layer, bool btn2) override {
-        auto* level = this->m_recalledLevel;
         if (layer->getTag() != 7 || !btn2)
             return LevelBrowserLayer::FLAlert_Clicked(layer, btn2);
 
+        auto* level = this->m_recalledLevel;
         auto cost = getKeyCost(level->m_dailyID.value());
         auto* StatsManager = GameStatsManager::sharedState();
         StatsManager->incrementStat("21", cost);
