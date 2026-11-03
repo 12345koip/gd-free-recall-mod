@@ -40,8 +40,8 @@ class $modify(DailyRecallUnlockPopup) {
             //setString resets the colours, need to reapply shadow
             if (area->getZOrder() == 2) { //the shadow text.
 
-                //don't shout at me, there's only one of these.
-                auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
+                //please note the textarea only has one child hence this is safe
+                auto* mbf = area->getChildByIndex(0);
                 if (!mbf) continue;
 
                 for (auto* line: mbf->getChildrenExt<CCLabelBMFont>())
@@ -81,9 +81,7 @@ class $modify(LevelBrowserLayer) {
             return LevelBrowserLayer::cellPerformedAction(rawCell, listType, action, parent);
 
         auto* cell = static_cast<LevelCell*>(rawCell);
-        auto* originalLevel = cell->m_level;
-        auto* copiedLevel = originalLevel->duplicate();
-        copiedLevel->m_dailyID = originalLevel->m_replayDailyID;
+        auto* copiedLevel = cell->recallLevel();
 
         copiedLevel->retain();
         CC_SAFE_RELEASE(this->m_recalledLevel);
