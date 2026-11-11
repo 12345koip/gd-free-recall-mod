@@ -39,11 +39,7 @@ class $modify(DailyRecallUnlockPopup) {
 
             //setString resets the colours, need to reapply shadow
             if (area->getZOrder() == 2) { //the shadow text.
-
-                //please note the textarea only has one child hence this is safe
-                auto* mbf = area->getChildByIndex(0);
-                if (!mbf) continue;
-
+                auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
                 for (auto* line: mbf->getChildrenExt<CCLabelBMFont>())
                     line->setColor({0, 0, 0});
 
@@ -59,17 +55,10 @@ class $modify(LevelCell) {
     void loadCustomLevelCell() {
         LevelCell::loadCustomLevelCell();
 
-        auto* item = typeinfo_cast<CCMenuItemSpriteExtra*>(this->m_mainMenu->getChildByTag(5));
-        if (!item) return;
+        auto* recallLabelCostContainer = this->m_button->getNormalImage()->getChildByType<CCSprite>(0);
+        if (!recallLabelCostContainer) return;
 
-        auto* button = typeinfo_cast<ButtonSprite*>(item->getNormalImage());
-        if (!button) return;
-
-        //these two use indexes but those children are the only children of that type hope this helps
-        auto* container = button->getChildByType<CCSprite>(0);
-        if (!container) return;
-
-        auto* costLabel = container->getChildByType<CCLabelBMFont>(0);
+        auto* costLabel = recallLabelCostContainer->getChildByType<CCLabelBMFont>(0);
         costLabel->setString("0");
     }
 };
@@ -89,7 +78,7 @@ class $modify(LevelBrowserLayer) {
 
         auto popup = DailyRecallUnlockPopup::create(this, copiedLevel);
         if (popup) {
-            popup->setTag(7);
+            popup->setTag(7); //i cannot stress this enough im only doing this because its a reimplementation
             popup->show();
         }
 
