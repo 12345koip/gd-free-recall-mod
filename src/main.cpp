@@ -39,7 +39,7 @@ class $modify(DailyRecallUnlockPopup) {
 
             //setString resets the colours, need to reapply shadow
             if (area->getZOrder() == 2) { //the shadow text.
-                auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
+                auto* mbf = area->getChildByIndex(0); //dw this is safe its the only child of the TextArea
                 for (auto* line: mbf->getChildrenExt<CCLabelBMFont>())
                     line->setColor({0, 0, 0});
 
