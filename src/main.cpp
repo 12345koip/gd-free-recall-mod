@@ -5,17 +5,17 @@
 
 using namespace geode::prelude;
 
-const char* getLevelTypeStr(const int levelStatusDeterminer) {
-    if (levelStatusDeterminer <= 100000)
+const char* getLevelTypeStr(const int dailyID) {
+    if (dailyID <= 100000)
         return "Daily";
-    else if (levelStatusDeterminer <= 200000)
+    else if (dailyID <= 200000)
         return "Weekly";
     else
         return "Event";
 }
 
-const char* getExtraStringForLevelType(int levelStatusDeterminer) {
-    if (levelStatusDeterminer > 100000) //weekly demon or event.
+const char* getExtraStringForLevelType(const int dailyID) {
+    if (dailyID > 100000) //weekly demon or event.
         return "You get <cy>stars</c> and the <cg>chest</c>, nothing else.";
     else
         return "You get <cy>stars</c> only. No diamonds, no bonus.";
@@ -78,7 +78,7 @@ class $modify(LevelBrowserLayer) {
 
         auto popup = DailyRecallUnlockPopup::create(this, copiedLevel);
         if (popup) {
-            popup->setTag(7); //i cannot stress this enough im only doing this because its a reimplementation
+            popup->setTag(7);
             popup->show();
         }
 
@@ -90,7 +90,7 @@ class $modify(LevelBrowserLayer) {
             return LevelBrowserLayer::FLAlert_Clicked(layer, btn2);
 
         auto* level = this->m_recalledLevel;
-        auto cost = GameStatsManager::dailyRecallPrice(level->m_dailyID.value());
+        const auto cost = GameStatsManager::dailyRecallPrice(level->m_dailyID.value());
         auto* StatsManager = GameStatsManager::sharedState();
         StatsManager->incrementStat("21", cost);
 
@@ -99,6 +99,6 @@ class $modify(LevelBrowserLayer) {
         //need to give a reward so this persists
         auto obj = GJRewardObject::create(SpecialRewardItem::BonusKey, cost, 0);
         auto item = GJRewardItem::createWithObject(GJRewardType::SmallTreasure, obj);
-        StatsManager->m_weeklyChest->setObject(item, fmt::format("x_freerecall_{}", level->m_dailyID.value()));
+        StatsManager->m_weeklyChest->setObject(item, fmt::format("-{}", level->m_dailyID.value()));
     }
 };
