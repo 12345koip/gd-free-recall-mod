@@ -31,22 +31,12 @@ class $modify(DailyRecallUnlockPopup) {
         const auto extraStr = getExtraStringForLevelType(dailyID);
         const auto text = fmt::format("Unlock this {} level for <cy>0</c> <cj>Demon Keys</c>?\n{}", levelStr, extraStr);
 
-        for (auto* child: this->m_mainLayer->getChildrenExt<CCNode>()) {
-            auto* area = typeinfo_cast<TextArea*>(child);
-            if (!area) continue;
-
-            area->setString(text);
-
-            //setString resets the colours, need to reapply shadow
-            //rip no node ids (1)
-            if (area->getZOrder() == 2) { //the shadow text.
-                auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
-                for (auto* line: mbf->getChildrenExt<CCLabelBMFont>())
-                    line->setColor({0, 0, 0});
-
-                area->setOpacity(100);
-            }
-        }
+        auto* promptTextArea = static_cast<TextArea*>(this->m_mainLayer->getChildByID("prompt-area"));
+        auto* promptShadowArea = static_cast<TextArea*>(this->m_mainLayer->getChildByID("prompt-shadow-area"));
+        promptTextArea->setString(text);
+        promptShadowArea->setString(text);
+        promptShadowArea->setOpacity(100);
+        promptShadowArea->colorAllCharactersTo({0, 0, 0});
 
         return true;
     }
@@ -56,11 +46,10 @@ class $modify(LevelCell) {
     void loadCustomLevelCell() {
         LevelCell::loadCustomLevelCell();
 
-        //rip no node ids (2)
-        auto* recallLabelCostContainer = this->m_button->getNormalImage()->getChildByType<CCSprite>(0);
+        auto* recallLabelCostContainer = this->m_button->getNormalImage()->getChildByID("recall-container-sprite");
         if (!recallLabelCostContainer) return;
 
-        auto* costLabel = recallLabelCostContainer->getChildByType<CCLabelBMFont>(0);
+        auto* costLabel = static_cast<CCLabelBMFont*>(recallLabelCostContainer->getChildByID("cost-label"));
         costLabel->setString("0");
     }
 };
