@@ -38,8 +38,9 @@ class $modify(DailyRecallUnlockPopup) {
             area->setString(text);
 
             //setString resets the colours, need to reapply shadow
+            //rip no node ids (1)
             if (area->getZOrder() == 2) { //the shadow text.
-                auto* mbf = area->getChildByIndex(0); //dw this is safe its the only child of the TextArea
+                auto* mbf = area->getChildByType<MultilineBitmapFont>(0);
                 for (auto* line: mbf->getChildrenExt<CCLabelBMFont>())
                     line->setColor({0, 0, 0});
 
@@ -55,6 +56,7 @@ class $modify(LevelCell) {
     void loadCustomLevelCell() {
         LevelCell::loadCustomLevelCell();
 
+        //rip no node ids (2)
         auto* recallLabelCostContainer = this->m_button->getNormalImage()->getChildByType<CCSprite>(0);
         if (!recallLabelCostContainer) return;
 
