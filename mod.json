@@ -11,7 +11,9 @@
 	"description": "You have better things to spend your keys on!",
     "tags": ["offline", "cheat"],
     "links": {
-      "source": "https://github.com/12345koip/gd-free-recall-mod"
+        "source": "https://github.com/12345koip/gd-free-recall-mod"
     },
-	"dependencies": {}
+	"dependencies": {
+        "geode.node-ids": ">=1.24.0"
+    }
 }
