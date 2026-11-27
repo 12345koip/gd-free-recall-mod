@@ -33,7 +33,7 @@ class $modify(DailyRecallUnlockPopup) {
 
         auto* promptTextArea = static_cast<TextArea*>(this->m_mainLayer->getChildByID("prompt-area"));
         auto* promptShadowArea = static_cast<TextArea*>(this->m_mainLayer->getChildByID("prompt-shadow-area"));
-        if (!promptTextArea || !promptShadowArea) return;
+        if (!promptTextArea || !promptShadowArea) return false;
 
         promptTextArea->setString(text);
         promptShadowArea->setString(text);
