@@ -33,6 +33,8 @@ class $modify(DailyRecallUnlockPopup) {
 
         auto* promptTextArea = static_cast<TextArea*>(this->m_mainLayer->getChildByID("prompt-area"));
         auto* promptShadowArea = static_cast<TextArea*>(this->m_mainLayer->getChildByID("prompt-shadow-area"));
+        if (!promptTextArea || !promptShadowArea) return;
+
         promptTextArea->setString(text);
         promptShadowArea->setString(text);
         promptShadowArea->setOpacity(100);
@@ -50,6 +52,7 @@ class $modify(LevelCell) {
         if (!recallLabelCostContainer) return;
 
         auto* costLabel = static_cast<CCLabelBMFont*>(recallLabelCostContainer->getChildByID("cost-label"));
+        if (!costLabel) return;
         costLabel->setString("0");
     }
 };
